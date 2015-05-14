@@ -42,7 +42,7 @@ class A2Hosting extends Module
 
 		parent::__construct();
 
-		$this->displayName = $this->l('A2 Hosting');
+		$this->displayName = $this->l('A2 Hosting with TurboCache');
 		$this->description = $this->l('24/7/365 Support. Ultra Reliable. High Performance Hosting Solution');
 
 		if (_PS_VERSION_ < '1.5')
@@ -51,7 +51,23 @@ class A2Hosting extends Module
 
 	public function install()
 	{
-		return parent::install() && $this->registerHook('backOfficeHeader');
+		return parent::install() && 
+			$this->registerHook('backOfficeHeader')
+			$this->registerHook('header') &&
+			$this->registerHook('actionAuthentication') &&
+			$this->registerHook('actionCartSave') &&
+			$this->registerHook('displayHeader') &&
+			(bool)true;
+	}
+
+	public function update()
+	{
+		return  $this->registerHook('backOfficeHeader') &&
+			$this->registerHook('header') &&
+			$this->registerHook('actionAuthentication') &&
+			$this->registerHook('actionCartSave') &&
+			$this->registerHook('displayHeader') &&
+			(bool)true;
 	}
 
 	public function hookBackOfficeHeader()
@@ -82,5 +98,63 @@ class A2Hosting extends Module
 		));
 
 		return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
+	}
+	
+	
+	public function hookActionAuthentication()
+	{
+		if ($this->context->cookie->logged)
+			setcookie('logged', true, time() + ( 365 * 86400 ), '/');
+		else
+			setcookie('logged', false, time() - 86400, '/');
+	}
+
+	public function hookActionCartSave($params)
+	{
+		if (!isset($params['cart']))
+			return;
+
+		$cart = $params['cart'];
+
+		// Get current products
+		$products = $cart->getProducts();
+		if (count($products) == 0)
+		{
+			if (isset($_COOKIE['cart']))
+				setcookie('cart', false, time() - 86400, '/');
+		}
+		else
+			setcookie('cart', true, time() + ( 365 * 86400 ), '/');
+
+		return true;
+	}
+
+	public function hookDisplayHeader()
+	{
+		if ($this->context->cookie->logged)
+			setcookie('logged', true, time() + ( 365 * 86400 ), '/');
+		else
+		{
+			if (isset($_COOKIE['logged']))
+				setcookie('logged', false, time() - 86400, '/');
+		}
+
+		if (isset($this->context->cart))
+		{
+			// Get current products
+			$products = $this->context->cart->getProducts();
+			if (count($products) == 0)
+			{
+				if (isset($_COOKIE['cart']))
+					setcookie('cart', false, time() - 86400, '/');
+			}
+			else
+				setcookie('cart', true, time() + ( 365 * 86400 ), '/');
+		}
+		else
+		{
+			if (isset($_COOKIE['cart']))
+				setcookie('cart', false, time() - 86400, '/');
+		}
 	}
 }
