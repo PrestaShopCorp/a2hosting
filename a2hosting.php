@@ -19,7 +19,7 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author    Benjamin Cool <bcool@a2hosting.com>
+*  @author    Benjamin Cool <support@a2hosting.com>
 *  @copyright 2015 A2 Hosting, Inc.
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
