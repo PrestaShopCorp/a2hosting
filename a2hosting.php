@@ -146,7 +146,7 @@ class A2Hosting extends Module
 
     protected function isHosted()
     {
-        return is_dir("/opt/a2-optimized");
+        return is_dir("/var/softaculous/a2wp");
     }
 
     protected function isTurbo()
