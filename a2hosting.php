@@ -1,4 +1,29 @@
 <?php
+
+/**
+* 2015 A2 Hosting, Inc.
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author    Benjamin Cool <bcool@a2hosting.com>
+*  @copyright 2015 A2 Hosting, Inc.
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
+
 /**
 * 2007-2015 PrestaShop
 *
@@ -52,7 +77,7 @@ class A2Hosting extends Module
 	public function install()
 	{
 		return parent::install() && 
-			$this->registerHook('backOfficeHeader')
+			$this->registerHook('backOfficeHeader') &&
 			$this->registerHook('header') &&
 			$this->registerHook('actionAuthentication') &&
 			$this->registerHook('actionCartSave') &&
@@ -94,11 +119,40 @@ class A2Hosting extends Module
 	public function getContent()
 	{
 		$this->context->smarty->assign(array(
-			'module_dir' => $this->_path,
+			'module_dir'  => $this->_path,
+            'server_type' => $this->getServerType()
 		));
 
-		return $this->display(__FILE__, 'views/templates/admin/configure.tpl');
+
+        return $this->display(__FILE__, 'views/templates/admin/configure.tpl' );
+
+
 	}
+
+    protected function getServerType(){
+        if( !$this->isHosted() )
+        {
+           return 'Elsewhere';
+        }
+        else if( $this->isTurbo() )
+        {
+            return 'Turbo';
+        }
+        else
+        {
+            return 'NotTurbo';
+        }
+    }
+
+    protected function isHosted()
+    {
+        return is_dir("/opt/a2-optimized");
+    }
+
+    protected function isTurbo()
+    {
+        return is_dir("/usr/local/lsws");
+    }
 	
 	
 	public function hookActionAuthentication()
