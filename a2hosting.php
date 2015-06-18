@@ -60,7 +60,7 @@ class A2Hosting extends Module
 	{
 		$this->name = 'a2hosting';
 		$this->tab = 'others';
-		$this->version = '1.0.0';
+		$this->version = '1.0.1';
 		$this->author = 'PrestaShop';
 
 		$this->bootstrap = true;
@@ -81,7 +81,6 @@ class A2Hosting extends Module
 			$this->registerHook('header') &&
 			$this->registerHook('actionAuthentication') &&
 			$this->registerHook('actionCartSave') &&
-			$this->registerHook('displayHeader') &&
 			(bool)true;
 	}
 
@@ -91,7 +90,6 @@ class A2Hosting extends Module
 			$this->registerHook('header') &&
 			$this->registerHook('actionAuthentication') &&
 			$this->registerHook('actionCartSave') &&
-			$this->registerHook('displayHeader') &&
 			(bool)true;
 	}
 
