@@ -60,7 +60,7 @@ class A2Hosting extends Module
 	{
 		$this->name = 'a2hosting';
 		$this->tab = 'others';
-		$this->version = '1.0.1';
+		$this->version = '1.0.2';
 		$this->author = 'PrestaShop';
 
 		$this->bootstrap = true;
@@ -76,7 +76,7 @@ class A2Hosting extends Module
 
 	public function install()
 	{
-		return parent::install() && 
+		return parent::install() &&
 			$this->registerHook('backOfficeHeader') &&
 			$this->registerHook('header') &&
 			$this->registerHook('actionAuthentication') &&
@@ -151,8 +151,8 @@ class A2Hosting extends Module
     {
         return is_dir("/usr/local/lsws");
     }
-	
-	
+
+
 	public function hookActionAuthentication()
 	{
 		if ($this->context->cookie->logged)
