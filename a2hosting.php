@@ -60,7 +60,7 @@ class A2Hosting extends Module
 	{
 		$this->name = 'a2hosting';
 		$this->tab = 'others';
-		$this->version = '1.0.2';
+		$this->version = '1.0.3';
 		$this->author = 'PrestaShop';
 
 		$this->bootstrap = true;
